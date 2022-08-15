@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
-const { query } = require("express");
 const port = process.env.PORT || 5000;
 //
 
@@ -33,9 +32,8 @@ async function run() {
       res.send(result);
     });
     app.post("/todo", async (req, res) => {
-      const query = req.body;
-
-      const result = await todoCollection.insertOne(query);
+      const todoadd = req.body;
+      const result = await todoCollection.insertOne(todoadd);
       res.send({ success: true, result });
       console.log(result);
     });
@@ -43,7 +41,6 @@ async function run() {
     app.delete("/todo/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
-      console.log(query);
       const productDeleted = await todoCollection.deleteOne(query);
       res.send(productDeleted);
     });
